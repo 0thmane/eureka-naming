@@ -4,7 +4,7 @@ FROM openjdk:8-jdk-alpine
 
 WORKDIR /usr/app
 # Make port 8080 available to the world outside this container
-#EXPOSE 8080
+EXPOSE 8080
 
 # The application's jar file
 ARG JAR_FILE=target/netflix-eureka-naming-server-0.0.1-SNAPSHOT.jar
