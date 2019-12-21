@@ -7,7 +7,7 @@ WORKDIR /app
 COPY --from=clone /app/eureka-naming /app
 RUN mvn install
 
-FROM openjdk:8-jre-alpine
+FROM openjdk:8-jdk-alpine
 WORKDIR /app
 COPY --from=build /app/target/netflix-eureka-naming-server-0.1.jar /app
 EXPOSE 8080
