@@ -1,16 +1,14 @@
-# Start with a base image containing Java runtime
-FROM openjdk:8-jdk-alpine
+FROM alpine/git as clone
+WORKDIR /app
+RUN git clone https://github.com/0thmane/eureka-naming.git
 
+FROM maven:3.5-jdk-8-alpine as build
+WORKDIR /app
+COPY --from=clone /app/eureka /app
+RUN mvn install
 
-WORKDIR /usr/app
-# Make port 8080 available to the world outside this container
-#EXPOSE 8080
-
-# The application's jar file
-ARG JAR_FILE=target/netflix-eureka-naming-server-0.0.1-SNAPSHOT.jar
-
-# Add the application's jar to the container
-ADD ${JAR_FILE} netflix-eureka-naming-server-0.0.1-SNAPSHOT.jar
-
-# Run the jar file 
-ENTRYPOINT ["java","-Dserver.port=8080","-jar","/usr/app/netflix-eureka-naming-server-0.0.1-SNAPSHOT.jar"]
+FROM openjdk:8-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/netflix-eureka-naming-server-0.1.jar /app
+EXPOSE 8080
+ENTRYPOINT ["java","-Dserver.port=8080","-jar","/app/netflix-eureka-naming-server-0.1.jar"]
