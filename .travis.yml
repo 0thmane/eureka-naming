@@ -3,9 +3,7 @@ services:
   - docker
 before_install:
   - docker build -t hitos/docker-eureka -f Dockerfile .
-script:
-  - docker run hitos/docker-eureka
-  
+
 deploy:
   provider: elasticbeanstalk
   region: "us-east-2"
